@@ -1,0 +1,22 @@
+{
+    "name": "Opsive.UltimateCharacterController.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Opsive.UltimateCharacterController",
+        "Opsive.Shared",
+        "Opsive.Shared.Editor",
+        "Cinemachine",
+        "com.unity.cinemachine.editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
