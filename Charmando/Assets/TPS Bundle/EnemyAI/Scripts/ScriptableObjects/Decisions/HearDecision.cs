@@ -31,12 +31,32 @@ public class HearDecision : Decision
 		// Is there any evidence noticed?
 		if (hasTargets)
 		{
+			if(targetsInHearRadius[0].gameObject.tag == "Sound")
+			{
+                Debug.Log("Tagged as sound" + targetsInHearRadius[0].gameObject.tag);
+                //loop through targets and check for stuff.
+                // Grab current evidence position.
+                currentPos = targetsInHearRadius[0].transform.position;
+                // Evidence is already on track, check if it has moved.
+                if (!Equals(lastPos, Vector3.positiveInfinity))
+                {
+                    // The hear sense is only triggered if the evidence is in movement.
+                    if (!Equals(lastPos, currentPos))
+                    {
+                        controller.personalTarget = currentPos;
+                        return true;
+                    }
+                }
+                // Set evidence position for next game loop.
+                lastPos = currentPos;
+            }
 			//Debug.Log("Has Targets Hear: " + targetsInHearRadius[0].gameObject.name + " " + targetsInHearRadius[0].gameObject.tag + " " + targetsInHearRadius[0].gameObject.layer);
 				//parker adding check for audio source actually playing
 				AudioSource sound = targetsInHearRadius[0].gameObject.GetComponentInParent<AudioSource>();
-			if (sound.isPlaying)
+            Debug.Log("NotPlaying" + targetsInHearRadius[0].gameObject.layer + " name " + targetsInHearRadius[0].gameObject.name);
+            if (sound.isPlaying)
         	{
-				Debug.Log("Sound is playing hear");
+				Debug.Log("Sound is playing hear" + targetsInHearRadius[0].gameObject.layer);
 			//loop through targets and check for stuff.
 			// Grab current evidence position.
 			currentPos = targetsInHearRadius[0].transform.position;

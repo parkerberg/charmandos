@@ -151,6 +151,7 @@ namespace Opsive.UltimateCharacterController.Items.Actions.Modules.Shootable
             if (muzzleFlashObj != null) {
                 muzzleFlashObj.Show(CharacterItem, SlotID, m_MuzzleLocation, m_PoolMuzzleFlash, CharacterLocomotion);
             }
+            Debug.Log("Muzzle Flash, Overlapsphere here");
         }
 
         /// <summary>

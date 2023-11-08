@@ -238,6 +238,7 @@ namespace Opsive.UltimateCharacterController.SurfaceSystem
                     }
                 }
 
+                audioClip.name = "Sound";
                 // Play the clip.
                 var volume = Random.Range(m_MinAudioVolume, m_MaxAudioVolume);
                 var pitch = Random.Range(m_MinAudioPitch, m_MaxAudioPitch) * Time.timeScale * timeScale;
