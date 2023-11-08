@@ -22,6 +22,8 @@ public class PatrolAction : Action
 		controller.personalTarget = Vector3.positiveInfinity;
 		controller.CoverSpot = Vector3.positiveInfinity;
 		controller.focusSight = false;
+		controller.confusedSymbol.SetActive(false);
+		controller.alertSymbol.SetActive(false);
 	}
 	// NPC patrolling function.
 	private void Patrol(StateController controller)

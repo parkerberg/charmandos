@@ -27,5 +27,7 @@ public class SearchAction : Action
 		controller.enemyAnimation.AbortPendingAim();
 		controller.enemyAnimation.anim.SetBool(Crouch, false);
 		controller.CoverSpot = Vector3.positiveInfinity;
+		controller.confusedSymbol.SetActive(true);
+		controller.alertSymbol.SetActive(false);
 	}
 }

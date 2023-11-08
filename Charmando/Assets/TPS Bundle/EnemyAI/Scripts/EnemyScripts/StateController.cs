@@ -28,6 +28,10 @@ namespace EnemyAI
 		public int confusedCount = 0;
 		[Tooltip("Enemy finished confused search?")]
 		public bool completedSearch = false;
+		[Tooltip("Enemy finished confused search?")]
+		public GameObject alertSymbol;
+		[Tooltip("Enemy finished confused search?")]
+		public GameObject confusedSymbol;
 		[Tooltip("Current bullets on weapon mag.")]
 		public int bullets;
 		[Space(10)]

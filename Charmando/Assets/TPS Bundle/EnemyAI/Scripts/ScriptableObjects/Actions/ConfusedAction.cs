@@ -78,6 +78,8 @@ public class ConfusedAction : Action
         controller.confusedCount += 1;
         //point = (Random.insideUnitSphere * randomPointRadius) + controller.transform.position;
         
+		controller.confusedSymbol.SetActive(true);
+		controller.alertSymbol.SetActive(false);
 
 		controller.focusSight = false;
 		controller.enemyAnimation.AbortPendingAim();

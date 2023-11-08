@@ -12,6 +12,8 @@ public class RagdollDeathEffect : MonoBehaviour
     public GameObject weapon;
     public GameObject enemyGameobject;
 
+	public GameObject viewVisualizor;
+
 	public Canvas ui;
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class RagdollDeathEffect : MonoBehaviour
 			anim.enabled = false;
             Destroy(weapon.gameObject);
 			ui.enabled = false;
+			viewVisualizor.SetActive(false);
 			//Destroy(weapon.gameObject);
 			//Destroy(hud.gameObject);
 			//dead = true;

@@ -93,6 +93,8 @@ public class AttackAction : Action
 		controller.enemyAnimation.anim.SetBool(Crouch, false);
 		controller.variables.waitInCoverTimer = 0;
 		controller.enemyAnimation.ActivatePendingAim();
+		controller.confusedSymbol.SetActive(false);
+		controller.alertSymbol.SetActive(true);
 	}
 	// Perform the shoot action.
 	private void Shoot(StateController controller)
