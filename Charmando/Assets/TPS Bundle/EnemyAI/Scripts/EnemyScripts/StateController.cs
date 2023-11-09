@@ -24,6 +24,8 @@ namespace EnemyAI
 		public List<Transform> patrolWayPoints;
 		[Tooltip("The location waypoints to search when confused.")]
 		public List<Transform> searchWayPoints;
+		[Tooltip("Is this a stationary patrol?")]
+		public bool stationaryPatrol = false;
 		[Tooltip("Total times confused.")]
 		public int confusedCount = 0;
 		[Tooltip("Enemy finished confused search?")]

@@ -22,6 +22,8 @@ public class FieldOfView : MonoBehaviour
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
+    public Transform head;
+
     void Start()
     {
         viewMesh = new Mesh();
@@ -74,7 +76,8 @@ public class FieldOfView : MonoBehaviour
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            Debug.Log(head.rotation.y);
+            float angle = head.localEulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
             if (i > 0)
@@ -86,7 +89,7 @@ public class FieldOfView : MonoBehaviour
                     if (edge.pointA != Vector3.zero)
                     {
                         viewPoints.Add(edge.pointA);
-                    }
+                    }   
                     if (edge.pointB != Vector3.zero)
                     {
                         viewPoints.Add(edge.pointB);
@@ -156,7 +159,7 @@ public class FieldOfView : MonoBehaviour
 
     ViewCastInfo ViewCast(float globalAngle)
     {
-        Vector3 dir = DirFromAngle(globalAngle, true);
+        Vector3 dir = DirFromAngle(globalAngle, false);
         RaycastHit hit;
 
         if (Physics.Raycast(raySource.position, dir, out hit, viewRadius, obstacleMask))
@@ -173,7 +176,7 @@ public class FieldOfView : MonoBehaviour
     {
         if (!angleIsGlobal)
         {
-            angleInDegrees += transform.eulerAngles.y;
+            angleInDegrees += transform.localEulerAngles.y;
         }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }

@@ -29,8 +29,14 @@ public class PatrolAction : Action
 	private void Patrol(StateController controller)
 	{
 		// No patrol waypoints, stand idle.
-		if (controller.patrolWayPoints.Count == 0)
+		if (controller.patrolWayPoints.Count == 0){
+			if(controller.searchWayPoints.Count > 0){
+				Debug.Log("Waypoints Found");
+			//controller.enemyAnimation.LookAtObject(controller.searchWayPoints[0].position);
+			}
 			return;
+		}
+			
 		// Set navigation parameters.
 		controller.focusSight = false;
 		controller.nav.speed = controller.generalStats.patrolSpeed;

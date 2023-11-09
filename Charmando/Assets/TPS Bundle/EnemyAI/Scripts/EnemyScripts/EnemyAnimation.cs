@@ -13,13 +13,15 @@ namespace EnemyAI
 		private StateController controller;                      // Reference to the NPC state controller (with the FSM).
 		private UnityEngine.AI.NavMeshAgent nav;                 // Reference to the NPC NavMesh agent.
 		private bool pendingAim;                                 // Boolean to determine if an aim animation activation is pending.
-		private Transform hips, spine;                           // Avatar bone transforms.
+		public Transform hips, spine, head;                           // Avatar bone transforms.
 		private Vector3 initialRootRotation;                     // Initial root bone local rotation.
 		private Vector3 initialHipsRotation;                     // Initial hips rotation related to the root bone.
 		private Vector3 initialSpineRotation;                    // Initial spine rotation related to the hips bone.
 		private Quaternion lastRotation;                         // Last frame spine rotation.
 		private float timeCountAim, timeCountGuard;              // Timers to rotate the spine to the current desired rotation.
 		private readonly float turnSpeed = 25f;                  // NPC turn speed when strafing (focus movement).
+
+	
 
 		void Awake()
 		{
@@ -32,6 +34,7 @@ namespace EnemyAI
 			// Get avatar bones for rotation reference.
 			hips = anim.GetBoneTransform(HumanBodyBones.Hips);
 			spine = anim.GetBoneTransform(HumanBodyBones.Spine);
+			head = anim.GetBoneTransform(HumanBodyBones.Head);
 			Transform root = hips.parent;
 
 			// Correctly set the hip and root bones.
@@ -83,6 +86,18 @@ namespace EnemyAI
 
 		private void LateUpdate()
 		{
+					if(controller.stationaryPatrol == true){
+						//head.rotation = Quaternion.Euler(controller.searchWayPoints[0].position);
+						//head.LookAt(controller.searchWayPoints[0].position);
+						//Quaternion targetRotation = Quaternion.LookRotation(controller.searchWayPoints[0].position);
+						//targetRotation *= ;
+						//float yvalue = head.rotation.y +  25;
+						//head.LookAt(new Vector3(0, yvalue, 0));
+						//head.Rotate(0, Time.deltaTime, 0);
+						Quaternion newRotation = Quaternion.AngleAxis(90, Vector3.up);
+    					head.rotation= Quaternion.Slerp(head.rotation, newRotation, .05f); 
+						return;
+					}
 			// Aim adjustments.
 			if (controller.Aiming)
 			{
@@ -109,6 +124,7 @@ namespace EnemyAI
 				// Avoid unrealistic rotation, related to hips and spine.
 				else
 				{
+
 					// Deal with over twist stuck situation, due to async rotation of spine and hips.
 					if (timeCountAim == 0 && Quaternion.Angle(frameRotation, hips.rotation) > 70f)
 					{
@@ -141,6 +157,12 @@ namespace EnemyAI
 				// Local left arm rotation when guarding (for LONG gun).
 				anim.GetBoneTransform(HumanBodyBones.LeftUpperArm).localEulerAngles += controller.classStats.leftArmGuard;
 			}
+		}
+
+		public void LookAtObject(Vector3 spot)
+		{
+			head.rotation = Quaternion.Euler(spot);
+
 		}
 
 		// Set NPC orientation and speed on the animator controller.
