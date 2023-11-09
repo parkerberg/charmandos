@@ -22,7 +22,7 @@ public class ClearShotDecision : Decision
 
 		Debug.Log("Distance: " + Vector3.Distance(controller.personalTarget, controller.transform.position));
 
-		if(Vector3.Distance(controller.personalTarget, controller.transform.position) > 25f){
+		if(Vector3.Distance(controller.personalTarget, controller.transform.position) > 28f){
 				Debug.Log("Too Far");
 				return false;
 			}

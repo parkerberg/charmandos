@@ -20,7 +20,9 @@ namespace EnemyAI
 		[Space(10)]
 		[Tooltip("Target reference for aim.")]
 		public Transform aimTarget;
-		[Tooltip("The location waypoints to patrol.")]
+        [Tooltip("Target reference for view arc.")]
+        public GameObject viewArc;
+        [Tooltip("The location waypoints to patrol.")]
 		public List<Transform> patrolWayPoints;
 		[Tooltip("The location waypoints to search when confused.")]
 		public List<Transform> searchWayPoints;
