@@ -26,21 +26,23 @@ public class SelectViaScreen : MonoBehaviour
                     Debug.Log("Right Clicked something Name: " + hitHover.transform.gameObject.name);
                     if (hitHover.transform.gameObject.layer == 12)
                     {
-                        if(hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive == false && gameObject.GetComponent<AiHub>().globalArcEnabled == false)
+
+                    AiHub.SetGlobalArc(hitHover.transform.root.gameObject, hitHover.transform.root.gameObject.GetComponent<StateController>().viewArc);
+                      /*  if(hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive == false && AiHub.globalArcEnabled == false)
                         {
-                            gameObject.GetComponent<AiHub>().globalArcEnabled = true;
+                        AiHub.globalArcEnabled = true;
                         hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive = true;
                         hitHover.transform.root.gameObject.GetComponent<StateController>().viewArc.SetActive(true);
                         hitHover.transform.root.gameObject.GetComponent<FieldOfView>().enabled = true;
                        Debug.Log("Right Clicked Enemy active true");
-                        }else if(hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive == true && gameObject.GetComponent<AiHub>().globalArcEnabled == true)
+                        }else if(hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive == true && AiHub.globalArcEnabled == true)
                         {
-                            gameObject.GetComponent<AiHub>().globalArcEnabled = false;
+                        AiHub.globalArcEnabled = false;
                         hitHover.transform.root.gameObject.GetComponent<StateController>().viewArcActive = false;
                         hitHover.transform.root.gameObject.GetComponent<StateController>().viewArc.SetActive(false);
                         hitHover.transform.root.gameObject.GetComponent<FieldOfView>().enabled = false;
                        Debug.Log("Right Clicked Enemy active false");
-                        }
+                        }*/
                     }
                 }
             }

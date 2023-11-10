@@ -9,6 +9,8 @@ public class LookDecision : Decision
     private Color green = new Color(0, 1, 0, 0.45f);
     private Color yellow = new Color(1, 0.92f, 0.016f, 0.45f);
     private Color red = new Color(1, 0, 0, 0.45f);
+	private bool thisSetGlobalArc = false;
+	private AiHub hub;
     // The decide function, called on Update() (State controller - current state - transition - decision).
     public override bool Decide(StateController controller)
 	{
@@ -37,13 +39,22 @@ public class LookDecision : Decision
 			// Is target in FOV and NPC have a clear sight?
 			if (inFOVCondition && !controller.BlockedSight() && !tooFar)
 			{
-				if(controller.aiHub.GetComponent<AiHub>().globalArcEnabled == false)
+				if (AiHub.lastEnemyViewing != controller.gameObject)
 				{
-				controller.GetComponent<FieldOfView>().enabled = true;
-				controller.viewArc.SetActive(true);
+					AiHub.SetGlobalArc(controller.gameObject, controller.viewArc);
 				}
-				//parker - adding delay - stagger seconds to add levels of reaction
-				if (waitTimer > 2 || controller.currentState.name != "PatrolState")
+		
+				
+/*				if(thisSetGlobalArc == false)
+				{
+					thisSetGlobalArc = true;
+					//controller.aiHub.GetComponent<AiHub>().globalArcEnabled = true;
+					AiHub.globalArcEnabled = true;
+                controller.GetComponent<FieldOfView>().enabled = true;
+				controller.viewArc.SetActive(true);
+				}*/
+                //parker - adding delay - stagger seconds to add levels of reaction
+                if (waitTimer > 2 || controller.currentState.name != "PatrolState")
 				{
 					
                     Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
@@ -68,12 +79,19 @@ public class LookDecision : Decision
                 Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                 viewArch.material.SetColor("_BaseColor", green);
                 waitTimer = 0;
+				//AiHub.SetGlobalArc(controller.gameObject, controller.viewArc);
+/*				if (thisSetGlobalArc)
+				{
+                    //controller.aiHub.GetComponent<AiHub>().globalArcEnabled = false;
+                    AiHub.globalArcEnabled = false;
+                    thisSetGlobalArc = false;
+                }*/
             }
 
-		}else if(!controller.viewArcActive){ // need and else if the player has activated it manually
+		}/*else if(!controller.viewArcActive){ // need and else if the player has activated it manually
 				controller.GetComponent<FieldOfView>().enabled = false;
 				controller.viewArc.SetActive(false);
-		}
+		}*/
 		
 		// No target on sight.
 		return false;
