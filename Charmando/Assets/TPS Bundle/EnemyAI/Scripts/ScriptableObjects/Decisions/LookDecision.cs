@@ -32,12 +32,20 @@ public class LookDecision : Decision
 			//parker adjusted this to work off the head
 			Vector3 dirToTarget = target - controller.enemyAnimation.head.position;
 			bool inFOVCondition = (Vector3.Angle(dirToTarget, -controller.enemyAnimation.head.forward) < controller.viewAngle / 2);
+			Debug.Log("Distance: " + Vector3.Distance(target, controller.enemyAnimation.head.position));
+			bool tooFar = Vector3.Distance(target, controller.enemyAnimation.head.position) > 28f;
 			// Is target in FOV and NPC have a clear sight?
-			if (inFOVCondition && !controller.BlockedSight())
+			if (inFOVCondition && !controller.BlockedSight() && !tooFar)
 			{
-				//parker - adding delay - stagger seconds to add levels of reaction
-				if (waitTimer > 6)
+				if(controller.aiHub.GetComponent<AiHub>().globalArcEnabled == false)
 				{
+				controller.GetComponent<FieldOfView>().enabled = true;
+				controller.viewArc.SetActive(true);
+				}
+				//parker - adding delay - stagger seconds to add levels of reaction
+				if (waitTimer > 2 || controller.currentState.name != "PatrolState")
+				{
+					
                     Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                     viewArch.material.SetColor("_BaseColor", red);
                     waitTimer = 0;
@@ -46,7 +54,7 @@ public class LookDecision : Decision
 					controller.targetInSight = true;
 					controller.personalTarget = controller.aimTarget.position;
 					return true;
-				}else if (waitTimer > 3)
+				}else if (waitTimer > 0.5f)
 				{
                     Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                     viewArch.material.SetColor("_BaseColor", yellow);
@@ -55,14 +63,18 @@ public class LookDecision : Decision
 				waitTimer += Time.deltaTime;
 
 			}
-			else
+			else if(controller.currentState.name == "PatrolState")
 			{
                 Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                 viewArch.material.SetColor("_BaseColor", green);
                 waitTimer = 0;
             }
 
+		}else if(!controller.viewArcActive){ // need and else if the player has activated it manually
+				controller.GetComponent<FieldOfView>().enabled = false;
+				controller.viewArc.SetActive(false);
 		}
+		
 		// No target on sight.
 		return false;
 	}

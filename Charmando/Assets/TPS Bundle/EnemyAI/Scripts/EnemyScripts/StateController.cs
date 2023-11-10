@@ -22,6 +22,8 @@ namespace EnemyAI
 		public Transform aimTarget;
         [Tooltip("Target reference for view arc.")]
         public GameObject viewArc;
+        [Tooltip("Is the view arc active?")]
+		public bool viewArcActive;
         [Tooltip("The location waypoints to patrol.")]
 		public List<Transform> patrolWayPoints;
 		[Tooltip("The location waypoints to search when confused.")]
@@ -36,6 +38,8 @@ namespace EnemyAI
 		public GameObject alertSymbol;
 		[Tooltip("Enemy finished confused search?")]
 		public GameObject confusedSymbol;
+		[Tooltip("AI Hub")]
+		public GameObject aiHub;
 		[Tooltip("Current bullets on weapon mag.")]
 		public int bullets;
 		[Space(10)]
