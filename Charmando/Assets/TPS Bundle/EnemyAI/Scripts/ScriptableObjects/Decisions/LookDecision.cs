@@ -65,6 +65,7 @@ public class LookDecision : Decision
                 if (waitTimer > 2 || controller.currentState.name != "PatrolState")
 				{
 					AiHub.globalArcEnabled = true;
+                    GameObject.FindGameObjectWithTag("GameController").SendMessage("RootAlertMedium", controller.aimTarget.position, SendMessageOptions.DontRequireReceiver);
                     //Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                     //viewArch.material.SetColor("_BaseColor", red);
                     waitTimer = 0;
@@ -81,7 +82,7 @@ public class LookDecision : Decision
                 }
 				waitTimer += Time.deltaTime;
 
-			}else if(controller.currentState.name == "PatrolState")
+			}else if(controller.currentState.name == "PatrolState" && controller.viewArc.activeSelf)
 		{
 				Debug.Log("Turn Green");
                 Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
