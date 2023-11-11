@@ -23,6 +23,7 @@ public class LookDecision : Decision
 	// The delegate for results of overlapping targets in look decision.
 	private bool MyHandleTargets(StateController controller, bool hasTargets, Collider[] targetsInViewRadius)
 	{
+		Debug.Log(waitTimer);
 		// Is there any sight on view radius?
 		if(hasTargets)
 		{
@@ -35,13 +36,20 @@ public class LookDecision : Decision
 			Vector3 dirToTarget = target - controller.enemyAnimation.head.position;
 			bool inFOVCondition = (Vector3.Angle(dirToTarget, -controller.enemyAnimation.head.forward) < controller.viewAngle / 2);
 			Debug.Log("Distance: " + Vector3.Distance(target, controller.enemyAnimation.head.position));
-			bool tooFar = Vector3.Distance(target, controller.enemyAnimation.head.position) > 28f;
+			bool tooFar = Vector3.Distance(target, controller.enemyAnimation.head.position) >= 28f;
 			// Is target in FOV and NPC have a clear sight?
 			if (inFOVCondition && !controller.BlockedSight() && !tooFar)
 			{
-				if (AiHub.lastEnemyViewing != controller.gameObject)
+				Debug.Log("Global Bool" + AiHub.globalArcEnabled);
+				if (AiHub.lastEnemyViewing != controller.gameObject && !AiHub.globalArcEnabled)
 				{
 					AiHub.SetGlobalArc(controller.gameObject, controller.viewArc);
+				}
+				if(AiHub.globalArcEnabled){
+					waitTimer = 0;
+					controller.targetInSight = true;
+					controller.personalTarget = controller.aimTarget.position;
+					return true;
 				}
 		
 				
@@ -56,9 +64,9 @@ public class LookDecision : Decision
                 //parker - adding delay - stagger seconds to add levels of reaction
                 if (waitTimer > 2 || controller.currentState.name != "PatrolState")
 				{
-					
-                    Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
-                    viewArch.material.SetColor("_BaseColor", red);
+					AiHub.globalArcEnabled = true;
+                    //Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
+                    //viewArch.material.SetColor("_BaseColor", red);
                     waitTimer = 0;
 					Debug.Log("Found Target Look");
 					// Set current target parameters.
@@ -73,9 +81,9 @@ public class LookDecision : Decision
                 }
 				waitTimer += Time.deltaTime;
 
-			}
-			else if(controller.currentState.name == "PatrolState")
-			{
+			}else if(controller.currentState.name == "PatrolState")
+		{
+				Debug.Log("Turn Green");
                 Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                 viewArch.material.SetColor("_BaseColor", green);
                 waitTimer = 0;
@@ -86,9 +94,13 @@ public class LookDecision : Decision
                     AiHub.globalArcEnabled = false;
                     thisSetGlobalArc = false;
                 }*/
-            }
+         }
 
-		}/*else if(!controller.viewArcActive){ // need and else if the player has activated it manually
+
+		}
+		
+		
+		/*else if(!controller.viewArcActive){ // need and else if the player has activated it manually
 				controller.GetComponent<FieldOfView>().enabled = false;
 				controller.viewArc.SetActive(false);
 		}*/

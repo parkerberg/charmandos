@@ -46,7 +46,7 @@ public class AiHub : MonoBehaviour
                 currentArc.SetActive(true);
                 lastEnemyViewing = currentEnemy;
                 lastViewArc = currentArc;
-                globalArcEnabled = true;
+                //globalArcEnabled = true;
             }
             else
             {
@@ -54,7 +54,7 @@ public class AiHub : MonoBehaviour
                 currentArc.SetActive(false);
                 lastEnemyViewing = null;
                 lastViewArc = null;
-                globalArcEnabled = false;
+                //globalArcEnabled = false;
             }
 
         }
@@ -64,7 +64,7 @@ public class AiHub : MonoBehaviour
             currentArc.SetActive(true);
             lastEnemyViewing = currentEnemy;
             lastViewArc = currentArc;
-            globalArcEnabled = true;
+            //globalArcEnabled = true;
         }
 
     }

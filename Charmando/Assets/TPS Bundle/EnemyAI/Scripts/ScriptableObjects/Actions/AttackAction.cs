@@ -27,7 +27,7 @@ public class AttackAction : Action
 	private static readonly int Crouch = Animator.StringToHash("Crouch");
       [SerializeField] protected float m_VelocityMagnitude = 10;
 	  [SerializeField] protected float m_ShotDistance = 650f;
-
+    private Color red = new Color(1, 0, 0, 0.45f);
 	  
 	  [SerializeField] protected float m_FocusDistance = 725f;
         [SerializeField] protected ImpactDamageData m_ImpactDamageData = new ImpactDamageData()
@@ -95,6 +95,8 @@ public class AttackAction : Action
 		controller.enemyAnimation.ActivatePendingAim();
 		controller.confusedSymbol.SetActive(false);
 		controller.alertSymbol.SetActive(true);
+		Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
+        viewArch.material.SetColor("_BaseColor", red);
 	}
 	// Perform the shoot action.
 	private void Shoot(StateController controller)

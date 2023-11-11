@@ -6,6 +6,8 @@ using EnemyAI;
 [CreateAssetMenu(menuName = "Enemy AI/Actions/Patrol")]
 public class PatrolAction : Action
 {
+	    private Color green = new Color(0, 1, 0, 0.45f);
+		private int count = 0;
 	private static readonly int Crouch = Animator.StringToHash("Crouch");
 
 	// The act function, called on Update() (State controller - current state - action).
@@ -24,12 +26,37 @@ public class PatrolAction : Action
 		controller.focusSight = false;
 		controller.confusedSymbol.SetActive(false);
 		controller.alertSymbol.SetActive(false);
+		Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
+        viewArch.material.SetColor("_BaseColor", green);
 	}
 	// NPC patrolling function.
 	private void Patrol(StateController controller)
 	{
-		// No patrol waypoints, stand idle.
+
 		if (controller.patrolWayPoints.Count == 0){
+			return;
+		}
+
+		
+		// No patrol waypoints, stand idle.
+		if (controller.patrolWayPoints.Count == 2 && controller.stationaryPatrol){
+			
+
+		
+		if (controller.nav.remainingDistance <= controller.nav.stoppingDistance && !controller.nav.pathPending && count == 1)
+		{
+						controller.variables.patrolTimer += Time.deltaTime;
+
+			if (controller.variables.patrolTimer >= controller.generalStats.patrolWaitTime)
+			{
+			controller.transform.LookAt(controller.patrolWayPoints[1].position);
+			return;
+			}
+
+			
+		}
+		controller.nav.destination = controller.patrolWayPoints[0].position;
+		count = 1;
 			if(controller.searchWayPoints.Count > 0){
 				Debug.Log("Waypoints Found");
 			//controller.enemyAnimation.LookAtObject(controller.searchWayPoints[0].position);

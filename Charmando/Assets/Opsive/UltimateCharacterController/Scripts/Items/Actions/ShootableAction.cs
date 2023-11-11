@@ -283,7 +283,7 @@ namespace Opsive.UltimateCharacterController.Items.Actions
                 DebugLogger.SetInfo(InfoKey_FireState, "On Fire");
                 DebugLogger.SetInfo(InfoKey_FireData, fireData?.ToString());
             }
-
+            //GameObject.FindGameObjectWithTag("CameraController").SendMessage("RootAlertNearby", muzzleFlashLocation.position, SendMessageOptions.DontRequireReceiver);
 #if ULTIMATE_CHARACTER_CONTROLLER_MULTIPLAYER
             int invokedBitmask = 0;
 #endif

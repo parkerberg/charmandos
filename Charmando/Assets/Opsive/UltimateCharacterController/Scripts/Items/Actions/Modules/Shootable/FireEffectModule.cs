@@ -152,6 +152,7 @@ namespace Opsive.UltimateCharacterController.Items.Actions.Modules.Shootable
                 muzzleFlashObj.Show(CharacterItem, SlotID, m_MuzzleLocation, m_PoolMuzzleFlash, CharacterLocomotion);
             }
             Debug.Log("Muzzle Flash, Overlapsphere here");
+            GameObject.FindGameObjectWithTag("GameController").SendMessage("RootAlertFar", muzzleFlashLocation.position, SendMessageOptions.DontRequireReceiver);
         }
 
         /// <summary>

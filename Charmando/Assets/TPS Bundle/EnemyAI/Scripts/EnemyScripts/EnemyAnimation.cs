@@ -86,7 +86,7 @@ namespace EnemyAI
 
 		private void LateUpdate()
 		{
-					if(controller.stationaryPatrol == true){
+					/*if(controller.stationaryPatrol == true){
 						//head.rotation = Quaternion.Euler(controller.searchWayPoints[0].position);
 						//head.LookAt(controller.searchWayPoints[0].position);
 						//Quaternion targetRotation = Quaternion.LookRotation(controller.searchWayPoints[0].position);
@@ -97,7 +97,7 @@ namespace EnemyAI
 						Quaternion newRotation = Quaternion.AngleAxis(90, Vector3.up);
     					head.rotation= Quaternion.Slerp(head.rotation, newRotation, .05f); 
 						return;
-					}
+					}*/
 			// Aim adjustments.
 			if (controller.Aiming)
 			{

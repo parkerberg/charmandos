@@ -76,7 +76,7 @@ public class FieldOfView : MonoBehaviour
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
-            Debug.Log(head.localEulerAngles.y);
+//            Debug.Log(head.localEulerAngles.y);
             float angle = (head.localEulerAngles.y + 1) - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 

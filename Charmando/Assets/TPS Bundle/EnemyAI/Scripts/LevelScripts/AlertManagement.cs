@@ -41,10 +41,24 @@ public class AlertManagement : MonoBehaviour
 	}
 
 	// Root alert callback, set current alert origin (called externally).
-	public void RootAlertNearby(Vector3 origin)
+	public void RootAlertNear(Vector3 origin)
 	{
 		current = origin;
 		alert = true;
+		alertRadius = 12f;
+	}
+	public void RootAlertMedium(Vector3 origin)
+	{
+		current = origin;
+		alert = true;
+		alertRadius = 24f;
+	}
+
+	public void RootAlertFar(Vector3 origin)
+	{
+		current = origin;
+		alert = true;
+		alertRadius = 36f;
 	}
 
 	// Ping the alert, if any, periodically.
