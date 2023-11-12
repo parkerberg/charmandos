@@ -32,7 +32,8 @@ public class FocusDecision : Decision
 				radius = controller.perceptionRadius;
 				break;
 			case Sense.VIEW:
-				radius = controller.viewRadius;
+				//parker changing this
+				radius = 56f;
 				break;
 		}
 	}

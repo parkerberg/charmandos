@@ -18,12 +18,13 @@ public class ClearShotDecision : Decision
 	private bool HaveClearShot(StateController controller)
 	{
 		Vector3 shotOrigin = controller.transform.position + Vector3.up * (controller.generalStats.aboveCoverHeight + controller.nav.radius);
-		Vector3 shotDirection = controller.personalTarget - shotOrigin;
+		Vector3 shotDirection = controller.aimTarget.position - shotOrigin;
 
-		Debug.Log("Distance: " + Vector3.Distance(controller.personalTarget, controller.transform.position));
+		//Debug.Log("Distance: " + Vector3.Distance(controller.personalTarget, controller.transform.position));
 
-		if(Vector3.Distance(controller.personalTarget, controller.transform.position) > 28f){
-				Debug.Log("Too Far");
+		if(Vector3.Distance(controller.aimTarget.position, controller.transform.position) > controller.shotRange && !controller.BlockedSight())
+        {
+			//	Debug.Log("Too Far");
 				return false;
 			}
 

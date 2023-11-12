@@ -43,7 +43,9 @@ namespace EnemyAI
 		[Tooltip("Current bullets on weapon mag.")]
 		public int bullets;
 		[Space(10)]
-		[Tooltip("Radius of NPC Field of View (FOV) area.")]
+        [Tooltip("Radius of NPC Field of View (FOV) area.")]
+        [Range(0, 50)] public float shotRange;
+        [Tooltip("Radius of NPC Field of View (FOV) area.")]
 		[Range(0, 50)] public float viewRadius;
 		[Tooltip("Angle of NPC FOV area.")]
 		[Range(0, 360)] public float viewAngle;

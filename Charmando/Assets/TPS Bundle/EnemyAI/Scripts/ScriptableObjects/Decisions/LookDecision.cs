@@ -23,7 +23,7 @@ public class LookDecision : Decision
 	// The delegate for results of overlapping targets in look decision.
 	private bool MyHandleTargets(StateController controller, bool hasTargets, Collider[] targetsInViewRadius)
 	{
-		Debug.Log(waitTimer);
+		//Debug.Log(waitTimer);
 		// Is there any sight on view radius?
 		if(hasTargets)
 		{
@@ -35,12 +35,12 @@ public class LookDecision : Decision
 			//parker adjusted this to work off the head
 			Vector3 dirToTarget = target - controller.enemyAnimation.head.position;
 			bool inFOVCondition = (Vector3.Angle(dirToTarget, -controller.enemyAnimation.head.forward) < controller.viewAngle / 2);
-			Debug.Log("Distance: " + Vector3.Distance(target, controller.enemyAnimation.head.position));
+			//Debug.Log("Distance: " + Vector3.Distance(target, controller.enemyAnimation.head.position));
 			bool tooFar = Vector3.Distance(target, controller.enemyAnimation.head.position) >= 28f;
 			// Is target in FOV and NPC have a clear sight?
 			if (inFOVCondition && !controller.BlockedSight() && !tooFar)
 			{
-				Debug.Log("Global Bool" + AiHub.globalArcEnabled);
+				//Debug.Log("Global Bool" + AiHub.globalArcEnabled);
 				if (AiHub.lastEnemyViewing != controller.gameObject && !AiHub.globalArcEnabled)
 				{
 					AiHub.SetGlobalArc(controller.gameObject, controller.viewArc);
@@ -65,7 +65,8 @@ public class LookDecision : Decision
                 if (waitTimer > 2 || controller.currentState.name != "PatrolState")
 				{
 					AiHub.globalArcEnabled = true;
-                    GameObject.FindGameObjectWithTag("GameController").SendMessage("RootAlertMedium", controller.aimTarget.position, SendMessageOptions.DontRequireReceiver);
+					Vector3[] alertPack = { controller.transform.position, controller.aimTarget.position };
+                    GameObject.FindGameObjectWithTag("GameController").SendMessage("RootAlertMedium", alertPack, SendMessageOptions.DontRequireReceiver);
                     //Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
                     //viewArch.material.SetColor("_BaseColor", red);
                     waitTimer = 0;
