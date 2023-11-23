@@ -22,7 +22,7 @@ public class ClearShotDecision : Decision
 
 		//Debug.Log("Distance: " + Vector3.Distance(controller.personalTarget, controller.transform.position));
 
-		if(Vector3.Distance(controller.aimTarget.position, controller.transform.position) > controller.shotRange && !controller.BlockedSight())
+		if(Vector3.Distance(controller.aimTarget.position, controller.transform.position) > controller.shotRange && !controller.BlockedIgnoreCoverSight())
         {
 			//	Debug.Log("Too Far");
 				return false;
@@ -30,13 +30,13 @@ public class ClearShotDecision : Decision
 
 		// Cast sphere in target direction to check for obstacles in near radius.
 		bool obscuredShot = Physics.SphereCast(shotOrigin, controller.nav.radius, shotDirection, out RaycastHit hit,
-			controller.nearRadius, controller.generalStats.coverMask | controller.generalStats.obstacleMask);
+			controller.nearRadius, controller.maskCover | controller.generalStats.obstacleMask);
 		if (!obscuredShot)
 		{
 
 			// No near obstacles, cast line to target position and check for clear shot.
 			obscuredShot = Physics.Raycast(shotOrigin, shotDirection, out hit, shotDirection.magnitude,
-				controller.generalStats.coverMask | controller.generalStats.obstacleMask);
+				controller.maskCover | controller.generalStats.obstacleMask);
 			// Hit something, is it the target? If true, shot is clear.
 
 			if(obscuredShot){

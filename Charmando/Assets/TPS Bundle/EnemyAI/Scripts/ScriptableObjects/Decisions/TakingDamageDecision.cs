@@ -27,14 +27,15 @@
 		{
 			currentHealth = controller.gameObject.GetComponent<AttributeManager>().Attributes[0].Value;
 
-			if (currentHealth < lastHealth)
+			if (currentHealth < controller.lastHealth)
 			{
-				lastHealth = currentHealth;
+				Debug.Log("Lost Some Health");
+				controller.lastHealth = currentHealth;
 				return true;
 			}
 			else
 			{
-				lastHealth = currentHealth;
+				//lastHealth = currentHealth;
 				return false;
 			}
 		}

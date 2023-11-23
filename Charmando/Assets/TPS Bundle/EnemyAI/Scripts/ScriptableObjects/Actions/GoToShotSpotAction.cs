@@ -17,5 +17,6 @@ public class GoToShotSpotAction : Action
 		controller.nav.destination = controller.personalTarget;
 		controller.nav.speed = controller.generalStats.chaseSpeed;
 		controller.enemyAnimation.AbortPendingAim();
+		Debug.Log("GoToShotSpotAction");
 	}
 }

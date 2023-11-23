@@ -15,7 +15,7 @@ public class ReachedPointRandomDecision : Decision
 		{
 			Debug.Log("FinishedWaypoint.");
                 if((Time.time - startTime) >= timeToWait){
-                Debug.Log("FinishedWaypoint. Post Waited");
+                Debug.Log("FinishedWaypoint. Random Post Waited");
                 controller.completedSearch = false;
                 return true;
                 }
@@ -30,7 +30,7 @@ public class ReachedPointRandomDecision : Decision
     public override void OnEnableDecision(StateController controller)
 	{
 		// Calculate time to wait on current round.
-		timeToWait = Random.Range(3, maxTimeToWait);
+		timeToWait = Random.Range(5, maxTimeToWait);
 		// Set start waiting time.
 		startTime = Time.time;
 	}

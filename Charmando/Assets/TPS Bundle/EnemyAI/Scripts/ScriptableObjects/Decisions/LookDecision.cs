@@ -27,6 +27,7 @@ public class LookDecision : Decision
 		// Is there any sight on view radius?
 		if(hasTargets)
 		{
+			 
 //			Debug.Log("Has Targets View: " + targetsInViewRadius[0].gameObject.name + " " + targetsInViewRadius[0].gameObject.tag + " " + targetsInViewRadius[0].gameObject.layer);
 			Vector3 target = targetsInViewRadius[0].transform.position;
 			// Check if target is in field of view.controller.enemyAnimation.head
@@ -71,6 +72,7 @@ public class LookDecision : Decision
                     //viewArch.material.SetColor("_BaseColor", red);
                     waitTimer = 0;
 					Debug.Log("Found Target Look");
+
 					// Set current target parameters.
 					controller.targetInSight = true;
 					controller.personalTarget = controller.aimTarget.position;

@@ -2,8 +2,8 @@
 using EnemyAI;
 
 // The decision to focus on the target.
-[CreateAssetMenu(menuName = "Enemy AI/Decisions/FocusNear")]
-public class FocusDecisionNear : Decision
+[CreateAssetMenu(menuName = "Enemy AI/Decisions/Focus Attack")]
+public class FocusAttackDecision : Decision
 {
 	[Tooltip("Which sense radius will be used?")]
 	public Sense sense;
@@ -32,7 +32,8 @@ public class FocusDecisionNear : Decision
 				radius = controller.perceptionRadius;
 				break;
 			case Sense.VIEW:
-				radius = controller.viewRadius;
+				//parker changing this
+				radius = 56f;
 				break;
 		}
 	}
@@ -48,37 +49,10 @@ public class FocusDecisionNear : Decision
 	private bool MyHandleTargets(StateController controller, bool hasTargets, Collider[] targetsInHearRadius)
 	{
 		
-        		// Is there any evidence noticed?
-		if (hasTargets)
+		// Is there any target, with a clear sight to it?
+		if (hasTargets && !controller.BlockedSight())
 		{
-			//Debug.Log("Has Targets Near: " + targetsInHearRadius[0].gameObject.name + " " + targetsInHearRadius[0].gameObject.tag + " " + targetsInHearRadius[0].gameObject.layer);
-				//parker adding check for audio source actually playing
-				AudioSource sound = targetsInHearRadius[0].gameObject.GetComponentInParent<AudioSource>();
-			if (sound.isPlaying && targetsInHearRadius[0].gameObject.tag == "SoundNear")
-        	{
-                Debug.Log("Near Sound is playing");
-			// Invalidate current cover spot (ex.: used to move from position when spotted).
-			    if(invalidateCoverSpot)
-				controller.CoverSpot = Vector3.positiveInfinity;
-			// Set current target parameters.
-			    controller.targetInSight = true;
-			    controller.personalTarget = controller.aimTarget.position;
-			    return true;
-			}
-		}
-		// No moving evidence was noticed.
-		return false;
-        
-        
-        
-        
-        
-        
-        
-        
-        // Is there any target, with a clear sight to it?
-		/*if (hasTargets && !controller.BlockedSight())
-		{
+			Debug.Log("Has Targets Focus: " + targetsInHearRadius[0].gameObject.name + " " + targetsInHearRadius[0].gameObject.tag + " " + targetsInHearRadius[0].gameObject.layer);
 			// Invalidate current cover spot (ex.: used to move from position when spotted).
 			if(invalidateCoverSpot)
 				controller.CoverSpot = Vector3.positiveInfinity;
@@ -88,6 +62,6 @@ public class FocusDecisionNear : Decision
 			return true;
 		}
 		// No target on sight.
-		return false;*/
+		return false;
 	}
 }

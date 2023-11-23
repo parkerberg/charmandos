@@ -31,7 +31,7 @@ public class HearDecision : Decision
 		// Is there any evidence noticed?
 		if (hasTargets)
 		{
-			if(targetsInHearRadius[0].gameObject.tag == "Sound")
+			if(targetsInHearRadius[0].gameObject.tag == "Soundw")
 			{
                 Debug.Log("Tagged as sound" + targetsInHearRadius[0].gameObject.tag);
                 //loop through targets and check for stuff.
@@ -53,8 +53,8 @@ public class HearDecision : Decision
 			//Debug.Log("Has Targets Hear: " + targetsInHearRadius[0].gameObject.name + " " + targetsInHearRadius[0].gameObject.tag + " " + targetsInHearRadius[0].gameObject.layer);
 				//parker adding check for audio source actually playing
 				AudioSource sound = targetsInHearRadius[0].gameObject.GetComponentInParent<AudioSource>();
-            Debug.Log("NotPlaying" + targetsInHearRadius[0].gameObject.layer + " name " + targetsInHearRadius[0].gameObject.name);
-            if (sound.isPlaying)
+            //Debug.Log("NotPlaying" + targetsInHearRadius[0].gameObject.layer + " name " + targetsInHearRadius[0].gameObject.name);
+            if (sound.isPlaying && targetsInHearRadius[0].gameObject.tag == "SoundHear")
         	{
 				Debug.Log("Sound is playing hear" + targetsInHearRadius[0].gameObject.layer);
 			//loop through targets and check for stuff.

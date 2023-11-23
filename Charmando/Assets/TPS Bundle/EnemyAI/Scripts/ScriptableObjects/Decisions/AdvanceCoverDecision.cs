@@ -26,6 +26,7 @@ public class AdvanceCoverDecision : Decision
 	// The decision on enable function, triggered once after a FSM state transition.
 	public override void OnEnableDecision(StateController controller)
 	{
+		Debug.Log("AdvanceCover");
 		// Accumulate an engage round.
 		controller.variables.waitRounds += 1;
 		// Calculate this round probability to advance to another cover spot.

@@ -30,7 +30,9 @@ namespace EnemyAI
 		public List<Transform> searchWayPoints;
 		[Tooltip("Is this a stationary patrol?")]
 		public bool stationaryPatrol = false;
-		[Tooltip("Total times confused.")]
+        [Tooltip("Is this a security Guard?")]
+        public bool securityGuard = false;
+        [Tooltip("Total times confused.")]
 		public int confusedCount = 0;
 		[Tooltip("Enemy finished confused search?")]
 		public bool completedSearch = false;
@@ -67,8 +69,9 @@ namespace EnemyAI
 		[HideInInspector] public EnemyVariables variables;          // Reference to extra variables, common to all NPC categories.
 		[HideInInspector] public CoverLookup coverLookup;           // Reference to the Game Controller's cover lookup script.
 		[HideInInspector] public Vector3 personalTarget;            // The current personal target, if any.
+        [HideInInspector] public float lastHealth = 100f;
 
-		private int magBullets;                                     // Maximum bullet capacity of the weapon mag.
+        private int magBullets;                                     // Maximum bullet capacity of the weapon mag.
 		private bool aiActive;                                      // Is the NPC AI active?
 		private static Dictionary<int, Vector3> coverSpot;          // The cover position for each NPC, if any.
 		private bool strafing;                                      // Is the NPC strafing?
@@ -76,9 +79,9 @@ namespace EnemyAI
 		private bool checkedOnLoop, blockedSight;                   // Blocked sight test related variables.
 		private static readonly int Strafe = Animator.StringToHash("Strafe");
 		private static readonly int Aim = Animator.StringToHash("Aim");
-
-		// Reset cover position.
-		private void OnDestroy()
+		public LayerMask maskCover;
+        // Reset cover position.
+        private void OnDestroy()
 		{
 			coverSpot.Remove(this.GetHashCode());
 		}
@@ -123,8 +126,9 @@ namespace EnemyAI
 
 		void Awake()
 		{
-			// Setup the references.
-			coverSpot ??= new Dictionary<int, Vector3>();
+            // Setup the references.
+            //lastHealth = controller.gameObject.GetComponent<AttributeManager>().Attributes[0].Value;
+            coverSpot ??= new Dictionary<int, Vector3>();
 			coverSpot[this.GetHashCode()] = Vector3.positiveInfinity;
 			nav = GetComponent<NavMeshAgent>();
 			aiActive = true;
@@ -249,5 +253,34 @@ namespace EnemyAI
 			}
 			return blockedSight;
 		}
-	}
+        // The common cast to target test, used by decisions that is based on NPC senses.
+        public bool BlockedIgnoreCoverSight()
+        {
+			
+            // The test was already performed on that game loop iteration?
+            if (!checkedOnLoop)
+            {
+                checkedOnLoop = true;
+                Vector3 target = default;
+                try
+                {
+                    target = aimTarget.position;
+                }
+                catch (UnassignedReferenceException)
+                {
+                    // Ensure the NPC has an aim target set.
+                    Debug.LogError("Assign an aim target to " + transform.name);
+                }
+                // Get cast to target parameters.
+                Vector3 castOrigin = transform.position + Vector3.up * generalStats.aboveCoverHeight;
+                Vector3 dirToTarget = target - castOrigin;
+
+                // Hit anything other than target? Uses cover and obstacle masks.
+                blockedSight =
+                    Physics.Raycast(castOrigin, dirToTarget, out _, dirToTarget.magnitude,
+                    generalStats.coverMask | maskCover);
+            }
+            return blockedSight;
+        }
+    }
 }

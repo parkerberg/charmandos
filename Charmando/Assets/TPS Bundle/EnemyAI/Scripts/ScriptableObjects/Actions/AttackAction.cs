@@ -57,6 +57,7 @@ public class AttackAction : Action
 		//parker - modified this to check how far away the character is and to lose focus if out of the radius of their view. Checks if they are in focus range and then shot range 
 		/*if((controller.personalTarget - controller.enemyAnimation.gunMuzzle.position).sqrMagnitude >= m_FocusDistance)
 		{
+		
 					controller.focusSight = false;
 		controller.variables.feelAlert = false;
 		controller.variables.hearAlert = false;
@@ -65,6 +66,11 @@ public class AttackAction : Action
 		controller.nav.speed = 0f;
 			return false;
 		}else*/
+
+			if(controller.securityGuard == true)
+			{
+				return false;
+			}
 		 if (controller.Aiming && 
 			(controller.enemyAnimation.currentAimAngleGap < aimAngleGap ||
 			// Or if the target is too close, shot anyway
@@ -97,7 +103,8 @@ public class AttackAction : Action
 		controller.alertSymbol.SetActive(true);
 		Renderer viewArch = controller.viewArc.GetComponent<Renderer>();
         viewArch.material.SetColor("_BaseColor", red);
-	}
+            Debug.Log("AttackAction");
+        }
 	// Perform the shoot action.
 	private void Shoot(StateController controller)
 	{
@@ -127,7 +134,7 @@ public class AttackAction : Action
 		imprecision += Random.Range(-controller.classStats.shotErrorRate, controller.classStats.shotErrorRate)
 			* controller.transform.up;
 		// Get shot desired direction.
-		Vector3 shotDirection = controller.personalTarget - controller.enemyAnimation.gunMuzzle.position;
+		Vector3 shotDirection = controller.aimTarget.position - controller.enemyAnimation.gunMuzzle.position;
 		// Cast shot.
 		Ray ray = new Ray(controller.enemyAnimation.gunMuzzle.position, shotDirection.normalized + imprecision);
 
@@ -138,17 +145,18 @@ public class AttackAction : Action
 		//Projectile projectile = g.GetComponent<Projectile>();
 		//projectile.Initialize(0, -controller.enemyAnimation.gunMuzzle.right * m_VelocityMagnitude, Vector3.zero, controller.gameObject, m_ImpactDamageData);
 
-		var projectile = ObjectPoolBase.Instantiate(controller.classStats.projectile, controller.enemyAnimation.gunMuzzle.position, Quaternion.LookRotation(controller.personalTarget)).GetCachedComponent<Projectile>();
-    	projectile.Initialize(0, -controller.enemyAnimation.gunMuzzle.right * m_VelocityMagnitude, Vector3.zero, controller.gameObject, m_ImpactDamageData);
-		
-		//projectile = Instantiate(controller.classStats.projectile, controller.enemyAnimation.gunMuzzle.position, Quaternion.identity);
-		//projectile.Initialize(0, m_FireLocation.forward * m_VelocityMagnitude, Vector3.zero, m_GameObject, m_ImpactDamageData);
-		if (Physics.Raycast(ray, out RaycastHit hit, controller.viewRadius, controller.generalStats.shotMask.value))
+		var projectile = ObjectPoolBase.Instantiate(controller.classStats.projectile, controller.enemyAnimation.gunMuzzle.position, Quaternion.LookRotation(shotDirection)).GetCachedComponent<Projectile>();
+    	projectile.Initialize(0, ray.direction * m_VelocityMagnitude, Vector3.zero, controller.gameObject, m_ImpactDamageData);
+            Debug.DrawRay(controller.enemyAnimation.gunMuzzle.position, shotDirection * 1000f, Color.blue);
+            //projectile = Instantiate(controller.classStats.projectile, controller.enemyAnimation.gunMuzzle.position, Quaternion.identity);
+            //projectile.Initialize(0, m_FireLocation.forward * m_VelocityMagnitude, Vector3.zero, m_GameObject, m_ImpactDamageData);
+            if (Physics.Raycast(ray, out RaycastHit hit, controller.viewRadius, controller.generalStats.shotMask.value))
 		{
 			// Hit something organic? Consider all layers in target mask as organic.
 			bool isOrganic = ((1 << hit.transform.root.gameObject.layer) & controller.generalStats.targetMask) != 0;
 			DoShot(controller, ray.direction, hit.point, hit.normal, isOrganic, hit.transform);
-		}
+                //Debug.DrawRay(controller.enemyAnimation.head.position, -controller.enemyAnimation.head.forward * 1000, Color.blue);
+            }
 		else
 		{
 			// Hit nothing (miss shot), shot at desired direction with imprecision.

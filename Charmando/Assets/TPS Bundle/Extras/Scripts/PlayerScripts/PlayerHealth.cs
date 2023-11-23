@@ -11,7 +11,8 @@ public class PlayerHealth : HealthManager
 	public AudioClip deathClip;
 	public AudioClip[] hitClips;
 	public GameObject hurtPrefab;
-	public float decayFactor = 0.8f;
+    public bool inNoGoZone = false;
+    public float decayFactor = 0.8f;
 
 	private float totalHealth;
 	private BlinkHUD criticalHud;
